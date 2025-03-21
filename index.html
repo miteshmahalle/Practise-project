@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedVision Predictive System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>MedVision's Predictive System</h1>
+    </header>
+
+    <div class="container">
+        <div class="prediction-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/2927/2927495.png" alt="Diabetes">
+            <h2>Diabetes Prediction</h2>
+            <button onclick="location.href='/diabetes'">Check Now</button>
+        </div>
+
+        <div class="prediction-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart Disease">
+            <h2>Heart Disease Prediction</h2>
+            <button onclick="location.href='/heart'">Check Now</button>
+        </div>
+
+        <div class="prediction-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" alt="Parkinson's">
+            <h2>Parkinson's Prediction</h2>
+            <button onclick="location.href='/parkinsons'">Check Now</button>
+        </div>
+    </div>
+
+    <script>
+        async function submitPrediction(modelType) {
+            let formData = new FormData(document.getElementById("predictionForm"));
+            formData.append("model", modelType);
+
+            let response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            document.getElementById("result").innerText = "Prediction: " + result.prediction;
+        }
+    </script>
+
+</body>
+</html>
